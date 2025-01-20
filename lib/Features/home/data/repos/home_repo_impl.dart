@@ -8,7 +8,7 @@ import 'package:dio/dio.dart';
 
 class HomeRepoImpl extends HomeRepo {
   final HomeRemoteDataSource homeRemoteDataSource;
-  final HomeLocalDataSource homeLocalDataSource;
+  final HomeLocalDataSource homeLocalDataSource;  
 
   HomeRepoImpl({
     required this.homeRemoteDataSource,
@@ -18,11 +18,11 @@ class HomeRepoImpl extends HomeRepo {
   @override
   Future<Either<Failure, List<BookEntity>>> fetchFeaturedBooks({int PageNumber = 0}) async {
     try {
-      List<BookEntity> books = homeLocalDataSource.fetchFeaturedBooks();
-      if (books.isNotEmpty) {
+      List<BookEntity> books = homeLocalDataSource.fetchFeaturedBooks(PageNumber: PageNumber);
+      if (books.isNotEmpty) { 
         return right(books);
       }
-      books = await homeRemoteDataSource.fetchFeaturedBooks();
+      books = await homeRemoteDataSource.fetchFeaturedBooks(pageNumber: PageNumber);
       return right(books);
     } catch (e) {
        if (e is DioException) {
